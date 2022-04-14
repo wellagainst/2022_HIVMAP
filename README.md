@@ -27,6 +27,8 @@
 
 
 3. Wireframes
+![image](https://github.com/wellagainst/2022_HIVMAP/blob/main/img/Page1.png)
+![image](https://github.com/wellagainst/2022_HIVMAP/blob/main/img/pic_2.jpg)
 
 
 
