@@ -20,8 +20,9 @@
     #2: After the choropleth map has been overlaid on the basemap, the user can hover on an area of interest (a specific census block group) and retrieve the crime         information about this area. The retrieved information will appear on a pop up window. The user can hold the ctrl key and select multiple census block groups.         These selected polygons would then be reexpressed as columns in a  table for the user to compare the crime statistics and maybe find a certain census block group       is an outlier. Eventually, the user can click the “Download” button on the bottom of the right side panel to download the map/table. The user would be asked to         select the format of the output (.png, .jpeg, etc.)
     
 2. Requirements Document
+![image](https://user-images.githubusercontent.com/71853197/163290433-17566cbb-ffc5-4d63-9765-326f4fe8ab50.png)
+
 ![image](https://user-images.githubusercontent.com/71853197/163243682-782dcd05-a380-470f-b58e-720e2e52e513.png)
-![image](https://user-images.githubusercontent.com/71853197/163243712-deef30ed-595b-4647-a6ca-0211e0627bd8.png)
 
 
 3. Wireframes
