@@ -21,8 +21,8 @@
     
 2. Requirements Document
 ![image](https://user-images.githubusercontent.com/71853197/163290433-17566cbb-ffc5-4d63-9765-326f4fe8ab50.png)
+![image](https://user-images.githubusercontent.com/71853197/163290493-80d69b4a-12e9-4716-9b51-88c0d1af8633.png)
 
-![image](https://user-images.githubusercontent.com/71853197/163243682-782dcd05-a380-470f-b58e-720e2e52e513.png)
 
 
 3. Wireframes
