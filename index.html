@@ -1,29 +1,151 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-            <title></title>
 
-        <!--put your external stylesheet links here-->
-        <link rel="stylesheet" href="css/style.css">
-        <!--[if IE<9]>
-            <link rel="stylesheet" href="css/style.ie.css">
-        <![endif]-->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-         <!--you can also place internal styles here;
-             place these within <style> tags-->
-        
-    </head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+    <title>NYC Anti-Asian Crime Map</title>
+</head>
 
-    <body>
-        <!--put your initial page content here-->
+<body>
+    <!-- The modal screen shown at the beginning of the page load -->
+    <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Thank you for using the NYC Anti-Asian Crime Map!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    This interaction tool helps to visualize all valid felony, misdemeanor, and violation crimes happened to Asian people. These crimes have been reported to the New York City Police Department since 2011.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Go to the map</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <!--you can also use this space for internal scripts;
-        place these within <script> tags-->
+    <!-- Title of the map -->
+    <div id="UpperTitleBorder">
+        <div class="container-fluid">
+        </div>
+    </div>
+    <div id="MapTitle">
+        <div class="container-fluid">
+            NYC Anti-Asian Crime Map
+        </div>
+    </div>
+    <div id="UpperTitleBorder">
+        <div class="container-fluid">
+        </div>
+    </div>
 
-        <!--put your external script links here-->
-        <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="lib/jquery-3.5.1.js"></script>
-    </body>
+    <div class="container" style="width:100%;max-width:none ;padding-left:0;padding-right:0;height: 88%;">
+        <div class="row align-items-start" style="height: 100%;margin: 0px;">
+            <!--Side bar for functions-->
+            <div class="col-2" id="sidebar">
+                <!-- choose the year of the map -->
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseYear" aria-expanded="false" aria-controls="collapseExample"
+                    id="yearSelection">
+                    Select Year
+                </button>
+
+                <div class="collapse " id="collapseYear">
+                    <div class="card" id="yearcard">
+                        <div class="btn-group" style="width:100%">
+                            <button class="btn" style="width:33.3%" id="2010">2010</button>
+                            <button class="btn" style="width:33.3%" id="2011">2011</button>
+                            <button class="btn" style="width:33.3%" id="2012">2012</button>
+                        </div>
+                        <div class="btn-group" style="width:100%">
+                            <button class="btn" style="width:33.3%" id="2013">2013</button>
+                            <button class="btn" style="width:33.3%" id="2014">2014</button>
+                            <button class="btn" style="width:33.3%" id="2015">2015</button>
+                        </div>
+                        <div class="btn-group" style="width:100%">
+                            <button class="btn" style="width:33.3%" id="2016">2016</button>
+                            <button class="btn" style="width:33.3%" id="2017">2017</button>
+                            <button class="btn" style="width:33.3%" id="2018">2018</button>
+                        </div>
+                        <div class="btn-group" style="width:100%">
+                            <button class="btn" style="width:33.3%" id="2019">2019</button>
+                            <button class="btn" style="width:33.3%" id="2020">2020</button>
+                            <button class="btn" style="width:33.3%" id="2021">2021</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- choose the crime type-->
+                <button class="btn dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#typeMenu"
+                    aria-expanded="false" aria-controls="collapseExample" id="crimeType">
+                    Select crime type
+                </button>
+
+                <div class="collapse" id="typeMenu">
+                    <button class="btn" style="width:100%; border-radius: 0%;border-radius: 0%;
+                    font-family: Georgia, 'Times New Roman', Times, serif;
+                    font-weight: bolder;height: 50px;">Felony</button>
+                    <button class="btn" style="width:100%; border-radius: 0%;border-radius: 0%;
+                    font-family: Georgia, 'Times New Roman', Times, serif;
+                    font-weight: bolder;height: 50px;">Misdemeandor</button>
+                    <button class="btn" style="width:100%; border-radius: 0%;border-radius: 0%;
+                    font-family: Georgia, 'Times New Roman', Times, serif;
+                    font-weight: bolder;height: 50px;">Violation</button>
+                </div>
+
+                <!--the button of showing chart-->
+                <button class="btn" type="button" id="newsButton">
+                    Show Crime News Map
+                </button>
+
+            </div>
+            <!-- The other contents-->
+            <div class="col-10" style="height: 100%">
+                <div class="container">
+                </div>
+                
+                <!-- the map frame -->
+                <div class="row" style="height: 70%;" id="map">
+                    <!-- the coordinated visualization chart-->
+                </div>
+                <div class="row" id="collapseChart" style="height: 30%">
+                    chart
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+    
+    <script type="text/javascript" src="lib/topojson.js"></script>
+    <script type="text/javascript" src="lib/d3.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+
 </html>
