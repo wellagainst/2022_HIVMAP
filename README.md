@@ -1,4 +1,4 @@
-# Asian Hate Crime Map
+# NYC Anti-Asian Hate Crime Map
 
 ### Team Members
 1. Gengkui Liu
