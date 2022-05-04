@@ -21,6 +21,8 @@ var colorClasses = [
     "#de2d26",
     "#a50f15"]
 var domainArray = [];
+var sliderValue=1;
+var crimeType="";
 
 // functions for basic buttons
 $(window).on('load', function () {
@@ -188,10 +190,9 @@ function changeAttribute(attribute, csvData) {
                 return "#ccc";
             }
         });
-        console.log(domainArray)
+        
 }
 function changeSlider(value, csvData){
-    console.log("hello world");
     // if (attribute == "2021") {
     //     expressed = attribute + "_S1";
     // }
@@ -214,19 +215,18 @@ function changeSlider(value, csvData){
                 return "#ccc";
             }
         });
+        //console.log("index: "+document.querySelector('.range-slider').value)
 }
 function changeType(year, type, csvData) {
-    console.log("click!");
+    
     if (year == "2021") {
-        expressed = type+"_"+year + "_S1";
-        console.log("expressed: "+expressed);
+        expressed = type+"_"+year + "_S"+sliderValue;
     }
     else {
         //change the expressed attribute
         expressed = type+"_"+year;
-        console.log("expressed: "+expressed);
     }
-
+console.log(expressed)
     //recreate the color scale
     var colorScale = makeColorScale(csvData);
     
@@ -236,9 +236,8 @@ function changeType(year, type, csvData) {
         .duration(1000)
         .style("fill", function (d) {
             var value = d.properties[expressed];
-            console.log(value)
             if (value) {
-                return colorScale(d.properties[expressed]);
+                return colorScale(parseFloat(d.properties[expressed]));
             } else {
                 return "#ccc";
             }
@@ -250,33 +249,50 @@ var year;
 function clickYearButton(csvData) {
     var buttons = $('.btn-year');
     buttons.click(function () {
+        console.log("click again")
         year = this.id;
-        if(year == "2021"){
-             createSequenceControls(csvData);
-             console.log("index: "+document.querySelector('.range-slider').value)
-        }
-        else{
-            d3.select(".range-slider")
-            .remove();
-            d3.selectAll(".step")
-            .remove();
-        }
+        console.log("year: "+year);
+        
         buttons.css('background-color', '#6495ED');
         buttons.css('color', 'black');
         $(this).css('background-color', '#4169E1');
         $(this).css('color', 'white');
-        changeAttribute(this.id, csvData);
+        if(year == "2021"){
+            console.log("crime: "+crimeType)
+            d3.select(".range-slider")
+               .remove();
+               d3.selectAll(".step")
+               .remove();
+            createSequenceControls(csvData);
+            
+           }
+        else{
+               changeAttribute(this.id, csvData);
+               d3.select(".range-slider")
+               .remove();
+               d3.selectAll(".step")
+               .remove();
+               
+           }
         //egend.update();
         var typebuttons = $('.btn-type');
-        typebuttons.click(function () {
-            typebuttons.css('background-color', '#6495ED');
-            typebuttons.css('color', 'black');
-            $(this).css('background-color', '#4169E1');
-            $(this).css('color', 'white');
-            changeType(year, this.id, csvData);
-        })
+            typebuttons.click(function () {
+                console.log("ehurixnhqournh")
+                typebuttons.css('background-color', '#6495ED');
+                typebuttons.css('color', 'black');
+                $(this).css('background-color', '#4169E1');
+                $(this).css('color', 'white');
+                crimeType = this.id;
+                console.log(crimeType);
+                changeType(year, this.id, csvData);
+                
+                //createSequenceControls(csvData);
+                
+                // console.log("index: "+document.querySelector('.range-slider').value)
+            })
         
     });
+
 }
 
 // create the information label
@@ -301,7 +317,6 @@ var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend')
-    console.log("this is: "+domainArray)
     div.innerHTML+="hello"+domainArray[0];
     //     grades = [0, 10, 20, 50, 100, 200, 500, 1000],
     //     labels = [];
@@ -353,7 +368,7 @@ function createSequenceControls(csvData){
         document.querySelectorAll('.step').forEach(function(step){
             step.addEventListener("click", function(){
                 var index = document.querySelector('.range-slider').value;
-    
+                
                 //Step 6: increment or decrement depending on button clicked
                 if (step.id == 'forward'){
                     index++;
@@ -364,22 +379,25 @@ function createSequenceControls(csvData){
                     //Step 7: if past the first attribute, wrap around to last attribute
                     index = index < 1 ? 4 : index;
                 };
-    
+                sliderValue = index;
                 //Step 8: update slider
                 document.querySelector('.range-slider').value = index;
-                changeSlider(document.querySelector('.range-slider').value, csvData);
-                
+                changeType("2021", crimeType, csvData)
+                //changeSlider(document.querySelector('.range-slider').value, csvData);
+                console.log("slider value: ", document.querySelector('.range-slider').value)
                 
             })
             
         })
         
         //Step 5: input listener for slider
-        document.querySelector('.range-slider').addEventListener('input', function(){            
+        document.querySelector('.range-slider').addEventListener('input', function(){          
             //Step 6: get the new index value
             var index = this.value;
-            changeSlider(index, csvData);
+            sliderValue = index;
+            changeType("2021", crimeType, csvData)
             
         });
+        //return document.querySelector('.range-slider').value;
 }
 
