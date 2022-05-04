@@ -20,7 +20,7 @@ var colorClasses = [
     "#fb6a4a",
     "#de2d26",
     "#a50f15"]
-
+var domainArray = [];
 
 // functions for basic buttons
 $(window).on('load', function () {
@@ -123,7 +123,8 @@ function addPrecincts(precinctData, colorScale) {
                 .duration('150')
                 .attr('stroke-width', 4)
                 .attr('stroke', 'yellow')
-            setLabel(d.properties)
+            info.update(d.properties);
+            //setLabel(d.properties)
 
         })
         .on('mouseout', function (event) {
@@ -146,7 +147,7 @@ function makeColorScale(data) {
         .range(colorClasses);
 
     //build array of all values of the expressed attribute
-    var domainArray = [];
+    
     for (var i = 0; i < data.length; i++) {
         var val = parseFloat(data[i][expressed]);
         domainArray.push(val);
@@ -161,6 +162,7 @@ function makeColorScale(data) {
     //remove first value from domain array to create class breakpoints
     domainArray.shift();
     colorScale.domain(domainArray);
+    
     return colorScale;
 };
 function changeAttribute(attribute, csvData) {
@@ -186,6 +188,9 @@ function changeAttribute(attribute, csvData) {
                 return "#ccc";
             }
         });
+        console.log(domainArray)
+        ////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
 }
 function changeType(year, type, csvData) {
     console.log("click!");
@@ -201,6 +206,7 @@ function changeType(year, type, csvData) {
 
     //recreate the color scale
     var colorScale = makeColorScale(csvData);
+    
     //recolor enumeration units
     var regions = d3.selectAll(".precincts")
         .transition()
@@ -227,6 +233,7 @@ function clickYearButton(csvData) {
         $(this).css('background-color', '#4169E1');
         $(this).css('color', 'white');
         changeAttribute(this.id, csvData);
+        //egend.update();
         var typebuttons = $('.btn-type');
         typebuttons.click(function () {
             typebuttons.css('background-color', '#6495ED');
@@ -239,18 +246,60 @@ function clickYearButton(csvData) {
     });
 }
 
-function setLabel(props){
-    console.log(expressed)
-    //label content
-    var labelAttribute = "<h1>Precinct: "+props["Precinct_1"]+"</h1><h2>Borough: " +props["Borough"]+"</h2><h2>"+ parseFloat(props[expressed]).toFixed(3) +
-        " crimes per 1000</h2>";
-    console.log(labelAttribute)
-    //create info label div
-    var infolabel = d3.select("body")
-        .append("svg")
-        .attr("class", "infolabel")
-        .attr("id","label")
-        .text(labelAttribute);
+// create the information label
+var info = L.control();
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
 };
 
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = (props ? '<h4>Precinct: ' +  
+        props["Precinct_1"] + '<br>Borough: '+ 
+        props["Borough"]+'<br>'+parseFloat(props[expressed]).toFixed(3)+" crimes per 1000 people"+"</h4>"
+        : '<h4>Hover over a precinct<h4>');
+};
+info.addTo(map);
+
+// // create the dynamic legend
+// var legend = L.control({position: 'bottomright'});
+// legend.onAdd = function (map) {
+//     var div = L.DomUtil.create('div', 'info legend')
+//     div.update();
+//     // // loop through our density intervals and generate a label with a colored square for each interval
+//     // for (var i = 0; i < domainArray.length; i++) {
+//     //     div.innerHTML +=
+//     //         '<i style="background:' + colorClasses[i] + '"></i> ' +
+//     //         domainArray[i] + (domainArray[i + 1] ? '&ndash;' + domainArray[i + 1] + '<br>' : '+');
+//     // }
+
+//     return div;
+// };
+// legend.update = function () {
+//     div.innerHTML = "hello"
+//     console.log("hello");
+// };
+// legend.addTo(map);
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend')
+    console.log("this is: "+domainArray)
+    div.innerHTML+="hello"+domainArray[0];
+    //     grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+    //     labels = [];
+
+    // // loop through our density intervals and generate a label with a colored square for each interval
+    // for (var i = 0; i < grades.length; i++) {
+    //     div.innerHTML +=
+    //         '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+    //         grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    // }
+
+    return div;
+};
+
+legend.addTo(map);
 
