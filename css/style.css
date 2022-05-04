@@ -39,7 +39,17 @@ body, html {
     border-radius: 0%;
     background-color: #6495ED;
 }
-.btn-group button {
+.btn-year{
+    background-color: #6495ED; /* Green background */
+    color: black; /* White text */
+    float: left; /* Float the buttons side by side */
+    height: 50px;
+    border-color: #4169E1;
+    border-radius: 0%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bolder;
+  }
+  .btn-type{
     background-color: #6495ED; /* Green background */
     color: black; /* White text */
     float: left; /* Float the buttons side by side */
@@ -90,8 +100,30 @@ body, html {
     background-color: white;
   }
 
-  .leaflet-overlay-pane svg path{
-    pointer-events: auto;
+  .precincts{
+    pointer-events: auto!important;
+  }
+  .infolabel {
+    position: absolute;
+    height: 50px;
+    min-width: 100px;
+    color: #fff;
+    background-color: #000;
+    border: 5px;
+    border-color: #6495ED;
+    padding: 5px 10px;
+    margin-left: 80%;
+    z-index: 2;
+    /* top: 0px;
+    right: 0px; */
+}
+
+h1{
+    margin: 0 20px 0 0;
+    padding: 0;
+    display: inline-block;
+    line-height: 1em;
+  color: white
 }
 
 
