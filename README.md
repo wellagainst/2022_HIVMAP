@@ -14,11 +14,13 @@ https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-
 3. Showing the dynamic information label of each precinct
 4. Add welcome message
 5. Add all necessary datasets
+6. Adding the time slider for the 2021 data once the 2021 button is clicked （some bugs needed to be resolved）
 
 ### What needs to be done after 75% draft:
-1. Adding the time slider for the 2021 data once the 2021 button is clicked
-2. Adding a dynamic legend
-3. Adding the chart
+1. Adding a dynamic legend
+2. Adding the chart
+3. Adding the news point data layer
+
 ### Final Proposal
 1. Persona/Scenario
     1. **Target User Profile (Persona):**
