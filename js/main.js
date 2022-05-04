@@ -189,8 +189,31 @@ function changeAttribute(attribute, csvData) {
             }
         });
         console.log(domainArray)
-        ////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////
+}
+function changeSlider(value, csvData){
+    console.log("hello world");
+    // if (attribute == "2021") {
+    //     expressed = attribute + "_S1";
+    // }
+    // else {
+    //     //change the expressed attribute
+    //     expressed = attribute;
+    // }
+    expressed = "2021_S"+value;
+    //recreate the color scale
+    var colorScale = makeColorScale(csvData);
+    //recolor enumeration units
+    var regions = d3.selectAll(".precincts")
+        .transition()
+        .duration(1000)
+        .style("fill", function (d) {
+            var value = d.properties[expressed];
+            if (value) {
+                return colorScale(d.properties[expressed]);
+            } else {
+                return "#ccc";
+            }
+        });
 }
 function changeType(year, type, csvData) {
     console.log("click!");
@@ -228,6 +251,16 @@ function clickYearButton(csvData) {
     var buttons = $('.btn-year');
     buttons.click(function () {
         year = this.id;
+        if(year == "2021"){
+             createSequenceControls(csvData);
+             console.log("index: "+document.querySelector('.range-slider').value)
+        }
+        else{
+            d3.select(".range-slider")
+            .remove();
+            d3.selectAll(".step")
+            .remove();
+        }
         buttons.css('background-color', '#6495ED');
         buttons.css('color', 'black');
         $(this).css('background-color', '#4169E1');
@@ -242,7 +275,7 @@ function clickYearButton(csvData) {
             $(this).css('color', 'white');
             changeType(year, this.id, csvData);
         })
-
+        
     });
 }
 
@@ -263,25 +296,7 @@ info.update = function (props) {
 };
 info.addTo(map);
 
-// // create the dynamic legend
-// var legend = L.control({position: 'bottomright'});
-// legend.onAdd = function (map) {
-//     var div = L.DomUtil.create('div', 'info legend')
-//     div.update();
-//     // // loop through our density intervals and generate a label with a colored square for each interval
-//     // for (var i = 0; i < domainArray.length; i++) {
-//     //     div.innerHTML +=
-//     //         '<i style="background:' + colorClasses[i] + '"></i> ' +
-//     //         domainArray[i] + (domainArray[i + 1] ? '&ndash;' + domainArray[i + 1] + '<br>' : '+');
-//     // }
 
-//     return div;
-// };
-// legend.update = function () {
-//     div.innerHTML = "hello"
-//     console.log("hello");
-// };
-// legend.addTo(map);
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
@@ -302,4 +317,69 @@ legend.onAdd = function (map) {
 };
 
 legend.addTo(map);
+
+//Create new sequence controls
+function createSequenceControls(csvData){   
+    var SequenceControl = L.Control.extend({
+        options: {
+            position: 'topleft'
+        },
+
+        onAdd: function () {
+            // create the control container div with a particular class name
+            var container = L.DomUtil.create('div', 'sequence-control-container');
+
+            //create range input element (slider)
+            container.insertAdjacentHTML('beforeend', '<button class="step" id="reverse" title="Reverse">S1</button>'); 
+            container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">')
+            container.insertAdjacentHTML('beforeend', '<button class="step" id="forward" title="Forward">S4</button>');
+            //set slider attributes
+            d3.select(".range-slider")
+            .attr("max", 4)
+            .attr("min", 0)
+            .attr("value", 0)
+            .attr("step", 1)
+            
+            L.DomEvent.disableClickPropagation(container);
+            return container;
+        }
+    });
+    map.addControl(new SequenceControl());    // add listeners after adding control}
+    document.querySelector(".range-slider").max = 4;
+    document.querySelector(".range-slider").min = 1;
+    document.querySelector(".range-slider").value = 1;
+    document.querySelector(".range-slider").step = 1;
+        //Step 5: click listener for buttons
+        document.querySelectorAll('.step').forEach(function(step){
+            step.addEventListener("click", function(){
+                var index = document.querySelector('.range-slider').value;
+    
+                //Step 6: increment or decrement depending on button clicked
+                if (step.id == 'forward'){
+                    index++;
+                    //Step 7: if past the last attribute, wrap around to first attribute
+                    index = index > 4 ? 1 : index;
+                } else if (step.id == 'reverse'){
+                    index--;
+                    //Step 7: if past the first attribute, wrap around to last attribute
+                    index = index < 1 ? 4 : index;
+                };
+    
+                //Step 8: update slider
+                document.querySelector('.range-slider').value = index;
+                changeSlider(document.querySelector('.range-slider').value, csvData);
+                
+                
+            })
+            
+        })
+        
+        //Step 5: input listener for slider
+        document.querySelector('.range-slider').addEventListener('input', function(){            
+            //Step 6: get the new index value
+            var index = this.value;
+            changeSlider(index, csvData);
+            
+        });
+}
 
