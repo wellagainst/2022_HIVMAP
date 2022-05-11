@@ -23,17 +23,50 @@
     <!-- The modal screen shown at the beginning of the page load -->
     <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Thank you for using the NYC Anti-Asian Crime Map!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered modal-lg" >
+            <div class="modal-content"style = "height: 800px">
+                <div class="modal-header" style = "background-color: black;">
+                    <h5 class="modal-title" id="staticBackdropLabel" style = "color: white;">Welcome to the NYC Anti-Asian Crime Map!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style = "background-color: white;"></button>
                 </div>
-                <div class="modal-body">
-                    This interaction tool helps to visualize all valid felony, misdemeanor, and violation crimes happened to Asian people. These crimes have been reported to the New York City Police Department since 2011.
+                <div class="modal-body" >
+                    <!-- Some context information about why we make the map and why it is important -->
+                    <h5 >Background: </h5>
+                    <img src = "img/AsianHate.webp" style="width:500px;height:300px;margin-left: 125px;"></img>
+                    <br>
+                    At the beginning of 2020, Corona virus was spread over the world. As the virus was found in China at first,
+                    many people thought that the virus was made in China on purpose and disturbed our peaceful world. They directly 
+                    blame that Asian people are the virus and the anti-Asian crimes breaking out. New York is one of the most serious cities
+                    with a high Anti-Asian hate crime rate. According to Stop AAPI Hate, a national non-profit coalition, there are <strong>9081</strong> incidents
+                    reported between March and June 2020, doubling the number <strong>4548</strong> last year. Therefore, it is essential for the public and the 
+                    government to pay more attention to the racial hate in our society. Asian people study here, work here, and they should have 
+                    equal rights to live safely without being attacked unreasonably. <br><br> The purpose of the map is to compare the anti-Asian crime data
+                    acorss <strong>77</strong> police districts in New York with a coordinated line chart to compare the data of each police districts
+                    from <stong>2010</stong> to <strong>2021 (Season 1 to Season 4)</strong>. The crime news dot map is to show some serious crimes that are reported in News Article from
+                    the website during the pandemic.
+                    <br>
+                    <br>
+                    <!-- guide users to use the major functions of the web map -->
+                    <h5>How to use: </h5>
+                    <ul>
+                        <li>To show the total crime data by year: Click "Select Year" menu, choose one year button and click.</li>
+                        <li>To show the crime data by year with a specific type: After selecting the year, click "Select Crime Type" button, choose one type and click.</li>
+                        <li>Year 2021 is divided into 4 seasons, use the slider in the left-top corner to select a specific season.</li>
+                        <li>To show the chronological time line chart of a police precinct, click one precinct on the map.</li>
+                        <li>To show the criminal news map, click the "show crime news map" button, and choose one circle on the map to view the news content.</li>
+                        <li>To show the specific crime data and police precinct number, hover over a precinct and the information would appear in the right-top corner.</li>
+                    </ul>
+                    <br>
+                    <!-- specify what data source we use for making the map -->
+                    <h5>Data Source: </h5>
+                    <ul>
+                        <li><a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243">NYC Open Data</a></li>
+                        <li><a href = "https://johnkeefe.net/nyc-police-precinct-and-census-data">Asian Population</a></li>
+                        <li><a href = "https://www.nydailynews.com/new-york/nyc-crime/">Criminal News</a></li>
+                    </ul>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Go to the map</button>
+                <div class="modal-footer"style = "background-color: black;">
+                    <button type="button" class="btn" data-bs-dismiss="modal" style = "background-color: white; color: black;">Go to the map</button>
                 </div>
             </div>
         </div>
@@ -53,7 +86,8 @@
         <div class="container-fluid">
         </div>
     </div>
-
+    <!-- Author: Sihan Ren, Gengkui Liu, Oluwabusola Osundairo -->
+    <!-- Date: 2022-05-11 -->
     <div class="container" style="width:100%;max-width:none ;padding-left:0;padding-right:0;height: 88%;">
         <div class="row align-items-start" style="height: 100%;margin: 0px;">
             <!--Side bar for functions-->
@@ -68,24 +102,24 @@
                 <div class="collapse " id="collapseYear">
                     <div class="card" id="yearcard">
                         <div class="btn-group" style="width:100%">
-                            <button class="btn" style="width:33.3%" id="2010">2010</button>
-                            <button class="btn" style="width:33.3%" id="2011">2011</button>
-                            <button class="btn" style="width:33.3%" id="2012">2012</button>
+                            <button class="btn-year" style="width:33.3%" id="2010">2010</button>
+                            <button class="btn-year" style="width:33.3%" id="2011">2011</button>
+                            <button class="btn-year" style="width:33.3%" id="2012">2012</button>
                         </div>
                         <div class="btn-group" style="width:100%">
-                            <button class="btn" style="width:33.3%" id="2013">2013</button>
-                            <button class="btn" style="width:33.3%" id="2014">2014</button>
-                            <button class="btn" style="width:33.3%" id="2015">2015</button>
+                            <button class="btn-year" style="width:33.3%" id="2013">2013</button>
+                            <button class="btn-year" style="width:33.3%" id="2014">2014</button>
+                            <button class="btn-year" style="width:33.3%" id="2015">2015</button>
                         </div>
                         <div class="btn-group" style="width:100%">
-                            <button class="btn" style="width:33.3%" id="2016">2016</button>
-                            <button class="btn" style="width:33.3%" id="2017">2017</button>
-                            <button class="btn" style="width:33.3%" id="2018">2018</button>
+                            <button class="btn-year" style="width:33.3%" id="2016">2016</button>
+                            <button class="btn-year" style="width:33.3%" id="2017">2017</button>
+                            <button class="btn-year" style="width:33.3%" id="2018">2018</button>
                         </div>
                         <div class="btn-group" style="width:100%">
-                            <button class="btn" style="width:33.3%" id="2019">2019</button>
-                            <button class="btn" style="width:33.3%" id="2020">2020</button>
-                            <button class="btn" style="width:33.3%" id="2021">2021</button>
+                            <button class="btn-year" style="width:33.3%" id="2019">2019</button>
+                            <button class="btn-year" style="width:33.3%" id="2020">2020</button>
+                            <button class="btn-year" style="width:33.3%" id="2021">2021</button>
                         </div>
                     </div>
                 </div>
@@ -93,24 +127,28 @@
                 <!-- choose the crime type-->
                 <button class="btn dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#typeMenu"
                     aria-expanded="false" aria-controls="collapseExample" id="crimeType">
-                    Select crime type
+                    Select Crime Type
                 </button>
 
                 <div class="collapse" id="typeMenu">
-                    <button class="btn" style="width:100%; border-radius: 0%;border-radius: 0%;
+                    <button class="btn-type" style="width:100%; border-radius: 0%;border-radius: 0%;
                     font-family: Georgia, 'Times New Roman', Times, serif;
-                    font-weight: bolder;height: 50px;">Felony</button>
-                    <button class="btn" style="width:100%; border-radius: 0%;border-radius: 0%;
+                    font-weight: bolder;height: 50px;" id = "FELONY">Felony</button>
+                    <button class="btn-type" style="width:100%; border-radius: 0%;border-radius: 0%;
                     font-family: Georgia, 'Times New Roman', Times, serif;
-                    font-weight: bolder;height: 50px;">Misdemeandor</button>
-                    <button class="btn" style="width:100%; border-radius: 0%;border-radius: 0%;
+                    font-weight: bolder;height: 50px;" id = "MISDEMEANDOR">Misdemeandor</button>
+                    <button class="btn-type" style="width:100%; border-radius: 0%;border-radius: 0%;
                     font-family: Georgia, 'Times New Roman', Times, serif;
-                    font-weight: bolder;height: 50px;">Violation</button>
+                    font-weight: bolder;height: 50px;" id = "VIOLATION">Violation</button>
                 </div>
 
                 <!--the button of showing chart-->
                 <button class="btn" type="button" id="newsButton">
                     Show Crime News Map
+                </button>
+
+                <button class="btn" type="button" id="aboutButton">
+                    About
                 </button>
 
             </div>
@@ -124,7 +162,7 @@
                     <!-- the coordinated visualization chart-->
                 </div>
                 <div class="row" id="collapseChart" style="height: 30%">
-                    chart
+                    <!-- <svg id = "lineChart" style = "height: 100% ; width: 100%"></svg> -->
                 </div>
             </div>
 
@@ -142,7 +180,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
-    <script src='https://unpkg.com/simple-statistics@7.7.5/dist/simple-statistics.min.js'>
+        <script src='https://unpkg.com/simple-statistics@7.7.5/dist/simple-statistics.min.js'>
         </script>
     <script type="text/javascript" src="lib/topojson.js"></script>
     <script type="text/javascript" src="lib/d3.js"></script>
